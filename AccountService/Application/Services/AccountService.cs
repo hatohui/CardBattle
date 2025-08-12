@@ -18,9 +18,10 @@ public class AccountService : IAccountService
     {
         var account = new Account
         {
+            Id = Guid.NewGuid().ToString(),
             Name = request.Name,
             Email = request.Email,
-            Password = request.Password,
+            PasswordHash = request.Password,
         };
 
         var newAccount = await _accountRepository.AddAsync(account)
