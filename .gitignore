@@ -28,3 +28,9 @@ packages/
 *.sln.ide
 .DS_Store
 Thumbs.db
+# Entity Framework files
+Migrations/
+*.mdf
+*.ldf
+*.sqlite
+*.db
