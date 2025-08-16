@@ -18,7 +18,7 @@ public class AccountService : IAccountService
     {
         var account = new Account
         {
-            Id = Guid.NewGuid().ToString(),
+            Id = Guid.NewGuid(),
             Name = request.Name,
             Email = request.Email,
             PasswordHash = request.Password,
@@ -31,7 +31,7 @@ public class AccountService : IAccountService
         return newAccount;
     }
 
-    public async Task<bool> DeleteAccountAsync(int id)
+    public async Task<bool> DeleteAccountAsync(Guid id)
     {
         return await _accountRepository.DeleteAsync(id);
     }
@@ -41,7 +41,7 @@ public class AccountService : IAccountService
         return await _accountRepository.GetByEmailAsync(email);
     }
 
-    public async Task<Account?> GetAccountByIdAsync(int id)
+    public async Task<Account?> GetAccountByIdAsync(Guid id)
     {
         return await _accountRepository.GetByIdAsync(id);
     }

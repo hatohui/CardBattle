@@ -5,7 +5,7 @@ namespace Domain.Entities;
 public class Account
 {
     [Key]
-    public required string Id { get; set; }
+    public required Guid Id { get; set; }
 
     [Required, MaxLength(100)]
     public required string Name { get; set; }

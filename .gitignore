@@ -1,36 +1,84 @@
-bin
-obj
+# Build output
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+# User-specific files
 *.user
+*.userosscache
 *.suo
 *.sln.docstates
-# .NET 9 specific
+*.userprefs
+*.rsuser
+
+# Visual Studio working folders
+.vs/
+.vscode/
+
+# Build artifacts
 *.dll
 *.exe
 *.app
 *.pdb
 *.cache
 *.log
-*.vs/
-TestResults/
-.vscode/
-*.dbmdl
-*.bak
-*.nupkg
-*.snk
-project.lock.json
-project.fragment.lock.json
-artifacts/
-.nuget/
-packages/
-*.ide
-*.userprefs
-*.csproj.user
-*.sln.ide
-.DS_Store
-Thumbs.db
-# Entity Framework files
+*.appx
+*.appxbundle
+*.msix
+*.msixbundle
+*.msm
+*.msi
+
+# Entity Framework
 Migrations/
 *.mdf
 *.ldf
 *.sqlite
 *.db
+
+# NuGet
+*.nupkg
+*.snupkg
+.nuget/
+packages/
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.backup
+*.swp
+*.swo
+*.swn
+
+# Test results
+TestResults/
+*.trx
+*.coverage
+*.coveragexml
+
+# Azure / cloud publish
+PublishProfiles/
+*.pubxml
+*.publishproj
+*.azurePubxml
+*.publishsettings
+
+# Rider / JetBrains
+.idea/
+*.sln.iml
+
+# OS generated
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Icon?
+Desktop.ini
+
+# IIS Express
+.httplog/
+_IISExpress/

@@ -8,7 +8,7 @@ public interface IAccountService
     Task<Account> CreateAccountAsync(CreateAccountRequest request);
     Task<IEnumerable<Account>> GetAllAccountsAsync();
     Task<Account?> GetAccountByEmailAsync(string email);
-    Task<Account?> GetAccountByIdAsync(int id);
+    Task<Account?> GetAccountByIdAsync(Guid id);
     Task<bool> UpdateAccountAsync(Account account);
-    Task<bool> DeleteAccountAsync(int id);
+    Task<bool> DeleteAccountAsync(Guid id);
 }

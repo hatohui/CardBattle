@@ -20,14 +20,16 @@ public class AccountRepository : IAccountRepository
         return await _context.SaveChangesAsync() > 0;
     }
 
-    public async Task<bool> DeleteAsync(int id)
+    public async Task<bool> DeleteAsync(Guid id)
     {
         var account = await _context.Accounts.FindAsync(id);
+
         if (account != null)
         {
             _context.Accounts.Remove(account);
             return await _context.SaveChangesAsync() > 0;
         }
+
         return false;
     }
 
@@ -36,18 +38,19 @@ public class AccountRepository : IAccountRepository
         return await _context.Accounts.ToListAsync();
     }
 
-    public Task<Account?> GetByEmailAsync(string email)
+    public async Task<Account?> GetByEmailAsync(string email)
     {
-        throw new NotImplementedException();
+        return await _context.Accounts.FirstOrDefaultAsync(account => account.Email.Equals(email));
     }
 
-    public Task<Account?> GetByIdAsync(int id)
+    public async Task<Account?> GetByIdAsync(Guid id)
     {
-        throw new NotImplementedException();
+        return await _context.Accounts.FirstOrDefaultAsync(account => account.Id == id);
     }
 
-    public Task<bool> UpdateAsync(Account account)
+    public async Task<bool> UpdateAsync(Account account)
     {
-        throw new NotImplementedException();
+        _context.Accounts.Update(account);
+        return await _context.SaveChangesAsync() > 0;
     }
 }
