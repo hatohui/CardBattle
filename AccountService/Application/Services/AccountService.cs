@@ -16,6 +16,13 @@ public class AccountService : IAccountService
 
     public async Task<Account> CreateAccountAsync(CreateAccountRequest request)
     {
+        var existingAccount = await _accountRepository.GetByEmailAsync(request.Email);
+
+        if (existingAccount != null)
+        {
+            throw new Exception("Account with this email already exists");
+        }
+
         var account = new Account
         {
             Id = Guid.NewGuid(),
