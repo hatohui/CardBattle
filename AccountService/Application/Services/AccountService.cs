@@ -53,13 +53,24 @@ public class AccountService : IAccountService
         return await _accountRepository.GetByIdAsync(id);
     }
 
-    public async Task<IEnumerable<Account>> GetAllAccountsAsync()
+    public async Task<IEnumerable<Account>> GetAccountsAsync()
     {
         return await _accountRepository.GetAllAsync();
     }
 
-    public async Task<bool> UpdateAccountAsync(Account account)
+    public async Task<bool> UpdateAccountAsync(Guid id, UpdateAccountRequest request)
     {
+        var account = await _accountRepository.GetByIdAsync(id);
+
+        if (account == null)
+            return false;
+
+        account.Name = request.Name ?? account.Name;
+        account.Email = request.Email ?? account.Email;
+        account.PasswordHash = request.Password ?? account.PasswordHash;
+        account.AvatarUrl = request.AvatarUrl ?? account.AvatarUrl;
+        account.UpdateTimestamps();
+
         return await _accountRepository.UpdateAsync(account);
     }
 }

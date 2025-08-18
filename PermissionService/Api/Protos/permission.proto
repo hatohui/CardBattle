@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+option csharp_namespace = "Api.Grpc";
+
+package permission;
+
+message PermissionCheckRequest {
+  string subjectId = 1;
+  string resource = 2;
+  string action = 3;
+}
+
+message PermissionCheckResult {
+  bool allowed = 1;
+  string reason = 2;
+}
+
+service PermissionService {
+  rpc Check (PermissionCheckRequest) returns (PermissionCheckResult);
+}

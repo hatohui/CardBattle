@@ -1,6 +1,5 @@
 using Domain.Interfaces;
 using Infrastructure.Persistence;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Api.Extensions;
 

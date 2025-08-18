@@ -6,14 +6,9 @@ namespace Api.Controllers;
 
 [ApiController]
 [Route("accounts")]
-public class AccountController : ControllerBase
+public class AccountController(IAccountService accountService) : ControllerBase
 {
-    private readonly IAccountService _accountService;
-
-    public AccountController(IAccountService accountService)
-    {
-        _accountService = accountService;
-    }
+    private readonly IAccountService _accountService = accountService;
 
     [HttpPost]
     public async Task<IActionResult> CreateAccount([FromBody] CreateAccountRequest request)
@@ -32,7 +27,7 @@ public class AccountController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetAccounts()
     {
-        var accounts = await _accountService.GetAllAccountsAsync();
+        var accounts = await _accountService.GetAccountsAsync();
 
         if (!accounts.Any())
             return NotFound(new { Message = "No accounts found." });
@@ -51,5 +46,31 @@ public class AccountController : ControllerBase
         }
 
         return Ok(account);
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteAccount(Guid id)
+    {
+        var result = await _accountService.DeleteAccountAsync(id);
+
+        if (!result)
+        {
+            return NotFound(new { Message = "Account not found." });
+        }
+
+        return NoContent();
+    }
+
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateAccount(Guid id, [FromBody] UpdateAccountRequest request)
+    {
+        var result = await _accountService.UpdateAccountAsync(id, request);
+
+        if (!result)
+        {
+            return BadRequest(new { Message = "Account update failed." });
+        }
+
+        return NoContent();
     }
 }

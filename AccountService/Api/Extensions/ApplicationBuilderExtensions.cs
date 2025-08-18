@@ -12,13 +12,14 @@ public static class ApplicationBuilderExtensions
 
             if (app.Environment.IsDevelopment())
             {
-                options.RoutePrefix = string.Empty;
+                options.RoutePrefix = "";
             }
         });
 
         app.UseHttpsRedirection();
         app.UseAuthorization();
         app.MapControllers();
+        app.MapHealthChecks("/healthz");
 
         return app;
     }

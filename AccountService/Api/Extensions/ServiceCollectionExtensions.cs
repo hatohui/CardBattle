@@ -1,9 +1,4 @@
-using System.Reflection;
-using Application.Interfaces;
-using Application.Services;
-using Domain.Interfaces;
 using Infrastructure.Data;
-using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
@@ -18,12 +13,12 @@ public static class ServiceCollectionExtensions
     {
         builder.Services.AddDbContext<AccountDBContext>(options => options.UseNpgsql(accountDbUrl));
 
-        // Delegate registrations to focused extension methods
         builder.Services.AddRepositories();
         builder.Services.AddApplicationServices();
 
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();
+        builder.Services.AddHealthChecks();
 
         builder.Services.AddSwaggerGen(options =>
         {
