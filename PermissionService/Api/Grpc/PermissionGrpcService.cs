@@ -13,9 +13,14 @@ public class PermissionGrpcService(IPermissionService permissionService)
         ServerCallContext context
     )
     {
+        var id = Guid.TryParse(request.SubjectId, out var parsedId) ? parsedId : Guid.Empty;
+
+        if (id == Guid.Empty)
+            throw new RpcException(new Status(StatusCode.InvalidArgument, "Invalid SubjectId"));
+
         var dto = new Application.Dtos.PermissionCheckRequest
         {
-            SubjectId = Guid.TryParse(request.SubjectId, out var id) ? id : Guid.Empty,
+            SubjectId = id,
             Resource = request.Resource,
             Action = request.Action,
         };
