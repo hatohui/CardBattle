@@ -9,6 +9,8 @@ public class LogMiddleware(RequestDelegate next, ILoggerFactory loggerFactory)
 
     private readonly ILogger _logger = loggerFactory.CreateLogger("RequestHandler");
 
+    private readonly HashSet<string> _ignored = new() { "/favicon.ico" };
+
     public async Task Invoke(HttpContext context)
     {
         var correlationId = Guid.NewGuid().ToString("N");
@@ -18,17 +20,17 @@ public class LogMiddleware(RequestDelegate next, ILoggerFactory loggerFactory)
 
         try
         {
-            _logger.LogInformation(
-                "[{Timestamp}] ➡️  T:{TraceId} S:{SpanId} C:{CorrelationId} {Method} {Path} from {RemoteIpAddress}",
-                DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff"),
-                Activity.Current?.TraceId,
-                Activity.Current?.SpanId,
-                correlationId,
-                context.Request.Method,
-                context.Request.Path,
-                context.Connection.RemoteIpAddress?.ToString()
-            );
-
+            if (!_ignored.Contains(context.Request.Path))
+                _logger.LogInformation(
+                    "[{Timestamp}] ➡️  T:{TraceId} S:{SpanId} C:{CorrelationId} {Method} {Path} from {RemoteIpAddress}",
+                    DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff"),
+                    Activity.Current?.TraceId,
+                    Activity.Current?.SpanId,
+                    correlationId,
+                    context.Request.Method,
+                    context.Request.Path,
+                    context.Connection.RemoteIpAddress?.ToString()
+                );
             await _next(context);
         }
         catch (Exception ex)
@@ -48,18 +50,19 @@ public class LogMiddleware(RequestDelegate next, ILoggerFactory loggerFactory)
         finally
         {
             sw.Stop();
-            _logger.LogInformation(
-                "[{Timestamp}] ⬅️  T:{TraceId} S:{SpanId} C:{CorrelationId} {Method} {Path} {StatusIcon} {StatusCode} in {ElapsedMs}ms",
-                DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff"),
-                Activity.Current?.TraceId,
-                Activity.Current?.SpanId,
-                correlationId,
-                context.Request.Method,
-                context.Request.Path,
-                GetStatusIcon(context.Response.StatusCode),
-                context.Response.StatusCode,
-                sw.ElapsedMilliseconds
-            );
+            if (!_ignored.Contains(context.Request.Path))
+                _logger.LogInformation(
+                    "[{Timestamp}] ⬅️  T:{TraceId} S:{SpanId} C:{CorrelationId} {Method} {Path} {StatusIcon} {StatusCode} in {ElapsedMs}ms",
+                    DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff"),
+                    Activity.Current?.TraceId,
+                    Activity.Current?.SpanId,
+                    correlationId,
+                    context.Request.Method,
+                    context.Request.Path,
+                    GetStatusIcon(context.Response.StatusCode),
+                    context.Response.StatusCode,
+                    sw.ElapsedMilliseconds
+                );
         }
     }
 

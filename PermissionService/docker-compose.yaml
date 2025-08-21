@@ -1,0 +1,14 @@
+name: PermissionService
+
+services:
+  permissionservice:
+    image: permissionservice:latest
+    container_name: permission_service
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+      - "50051:50051"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production

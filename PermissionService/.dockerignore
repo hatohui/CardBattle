@@ -1,0 +1,65 @@
+# .dockerignore for a .NET project
+
+# Build outputs
+bin/
+obj/
+**/bin/
+**/obj/
+
+# Publish output
+publish/
+*.zip
+
+# Rider / Visual Studio / VS Code
+.vs/
+.vscode/
+.idea/
+
+# User-specific files
+*.user
+*.userosscache
+*.suo
+*.userprefs
+*.sln.DotSettings
+
+# NuGet
+packages/
+.nuget/
+*.nupkg
+*.snupkg
+project.lock.json
+global.json
+
+# Logs and databases
+*.log
+*.sqlite
+*.db
+*.mdf
+*.ldf
+
+# Certificates, keys and secrets
+*.pfx
+*.key
+*.cer
+*.pem
+.env
+.env.*
+local.settings.json
+appsettings.Development.json
+Properties/launchSettings.json
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Node / frontend artifacts (if present)
+node_modules/
+dist/
+wwwroot/dist/
+
+# Git / VCS
+.git
+.gitignore
+
+# Docker
+docker-compose.override.yml
