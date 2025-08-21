@@ -2,10 +2,17 @@ using Api.Grpc;
 using Api.Middlewares;
 using Application.Interfaces;
 using DotNetEnv;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 
 Env.Load();
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.WebHost.ConfigureKestrel(options =>
+{
+    options.ListenAnyIP(8080);
+    options.ListenAnyIP(50051, o => o.Protocols = HttpProtocols.Http2);
+});
 
 // Replace console logging formatter so the console output does not include the category/event id prefix
 builder.Services.AddLogging();

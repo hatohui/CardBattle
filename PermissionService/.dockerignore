@@ -63,3 +63,4 @@ wwwroot/dist/
 
 # Docker
 docker-compose.override.yml
+nginx
